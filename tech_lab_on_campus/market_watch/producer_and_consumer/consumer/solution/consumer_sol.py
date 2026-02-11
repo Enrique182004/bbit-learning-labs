@@ -15,11 +15,12 @@ class mqConsumer(mqConsumerInterface):
     def setupRMQConnection(self) -> None:
         # Set-up Connection to RabbitMQ service
         parameters = pika.ConnectionParameters(
-            host="host.docker.internal",  # Match producer
-            port=5672,
-            virtual_host='/',
-            credentials=pika.PlainCredentials('guest', 'guest')
-        )
+    host="localhost",  # ← CHANGE BACK from host.docker.internal
+    port=5672,
+    virtual_host='/',
+    credentials=pika.PlainCredentials('guest', 'guest')
+)
+
         self.connection = pika.BlockingConnection(parameters)
         # Establish Channel
         self.channel = self.connection.channel()

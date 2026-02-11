@@ -13,9 +13,10 @@ class mqProducer(mqProducerInterface):
 
     def setupRMQConnection(self) -> None:
         parameters = pika.ConnectionParameters(
-            host="host.docker.internal",  # <- changed from "rabbitmq"
+            host="localhost",  # ← CHANGE from "host.docker.internal"
             port=5672,
         )
+
         self.connection = pika.BlockingConnection(parameters)
         self.channel = self.connection.channel()
         self.channel.exchange_declare(
