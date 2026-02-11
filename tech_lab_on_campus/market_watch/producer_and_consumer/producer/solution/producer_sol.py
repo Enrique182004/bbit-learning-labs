@@ -25,17 +25,15 @@ class mqProducer(mqProducerInterface):
             durable=True,
         )
 
-    def publishOrder(self, message: str) -> None:
-        if not self.channel or self.channel.is_closed:
-            self.setupRMQConnection()
-
-        self.channel.basic_publish(
-            exchange=self.exchange_name,
-            routing_key=self.routing_key,
-            body=message,
-        )
-
-        if self.channel and self.channel.is_open:
-            self.channel.close()
-        if self.connection and self.connection.is_open:
-            self.connection.close()
+def publishOrder(self, message: str, routing_key: str) -> None:
+    self.channel.basic_publish(
+        exchange=self.exchange_name,
+        routing_key=routing_key,  # Use passed routing_key
+        body=message,
+        properties=pika.BasicProperties(delivery_mode=2)
+    )
+    print(f"Sent {routing_key}: {message}")
+    if self.channel and self.channel.is_open:
+        self.channel.close()
+    if self.connection and self.connection.is_open:
+        self.connection.close()

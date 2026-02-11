@@ -17,16 +17,18 @@ import sys
 
 from solution.producer_sol import mqProducer  # pylint: disable=import-error
 
-
 def main(ticker: str, price: float, sector: str) -> None:
     # Step 2: Create routing key
     routingKey = f"stock.{ticker}.{sector}"
     
-    # Step 3: Create message
+    # Step 3: Create message  
     message = f"{ticker} is ${price}"
     
-    producer = mqProducer(routing_key=routingKey, exchange_name="Tech Lab Topic Exchange")
-    producer.publishOrder(message, routingKey)  # Pass routing_key
+    # FIX: Remove routing_key from constructor
+    producer = mqProducer(exchange_name="Tech Lab Topic Exchange")
+    
+    # Pass routing_key to publishOrder instead
+    producer.publishOrder(message, routingKey)
 
 if __name__ == "__main__":
 
@@ -35,9 +37,5 @@ if __name__ == "__main__":
     parser.add_argument("price", type=float, help="Stock price")
     parser.add_argument("sector", help="Stock sector")
     args = parser.parse_args()
-    # Implement Logic to read the ticker, price and sector string from the command line and save them - Step 1
-    #
-    #                       WRITE CODE HERE!!!
-    #
 
     sys.exit(main(args.ticker,args.price,args.sector))
