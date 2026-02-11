@@ -1,5 +1,5 @@
 from tech_lab_on_campus.market_watch.producer_and_consumer.consumer.consumer_interface import mqConsumerInterface
-import pika
+
 
 class mqConsumer(mqConsumerInterface):
 
